@@ -1,0 +1,28 @@
+{
+  "name": "tygwan-protocols",
+  "owner": {
+    "name": "tygwan"
+  },
+  "description": "Experimental continuous design-to-delivery collaboration protocols.",
+  "plugins": [
+    {
+      "name": "claude-design-sync",
+      "source": "./plugins/claude-design-sync",
+      "description": "Manage design requests through authored design, verified implementation, delivery, and closure.",
+      "version": "0.1.0-alpha.3",
+      "author": {
+        "name": "tygwan"
+      },
+      "homepage": "https://github.com/tygwan/claude-protocol",
+      "repository": "https://github.com/tygwan/claude-protocol",
+      "keywords": [
+        "claude-code",
+        "claude-design",
+        "design-handoff",
+        "design-sync",
+        "human-in-the-loop"
+      ],
+      "category": "development"
+    }
+  ]
+}
