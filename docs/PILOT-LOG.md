@@ -21,6 +21,7 @@ Status: in progress. Completed through Design response, verified zip recovery, t
 | A session initially inspected the wrong Design project | Silent cross-project contamination | Require project identity plus file fingerprint and retired-ID denylist |
 | A large HTML file was byte-truncated during tool retrieval | Corrupt canon and false hashes | Treat truncation as a hard stop; forbid text reconstruction |
 | Remote size/hash metadata could not independently prove local raw bytes | False integrity confidence | Choose transport by capability, not size; use verified zip fallback |
+| An approval prompt manually transcribed a verified zip SHA with one extra character | Approval bound to a nonexistent artifact | Validate 64 lowercase hex characters and source the digest directly from verifier output before requesting approval |
 | Package metadata lagged behind the repository while design files were current | Whole-snapshot promotion would revert protocol docs | Separate Design-owned payload from repository-managed metadata and diff the full snapshot |
 | A malformed closing tag was found after the first DRES | Broken canvas structure | Preserve the old DRES and publish a superseding sequence |
 | A request was sent to the wrong actor | Ownership boundary violation | Put an explicit destination label on every instruction and hard-stop wrong-actor work |
