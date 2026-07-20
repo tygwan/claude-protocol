@@ -1,0 +1,28 @@
+{
+  "name": "tygwan-protocols",
+  "owner": {
+    "name": "tygwan"
+  },
+  "description": "Experimental, human-gated collaboration protocols for Claude Code and Claude Design.",
+  "plugins": [
+    {
+      "name": "claude-design-sync",
+      "source": "./plugins/claude-design-sync",
+      "description": "Govern design handoffs with append-only artifacts, verified snapshots, and explicit human gates.",
+      "version": "0.1.0-alpha.1",
+      "author": {
+        "name": "tygwan"
+      },
+      "homepage": "https://github.com/tygwan/claude-protocol",
+      "repository": "https://github.com/tygwan/claude-protocol",
+      "keywords": [
+        "claude-code",
+        "claude-design",
+        "design-handoff",
+        "design-sync",
+        "human-in-the-loop"
+      ],
+      "category": "development"
+    }
+  ]
+}

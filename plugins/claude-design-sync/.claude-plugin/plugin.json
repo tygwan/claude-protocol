@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "claude-design-sync",
+  "version": "0.1.0-alpha.1",
+  "description": "Human-gated, append-only design handoffs between Claude Code, Claude Design, and a repository.",
+  "author": {
+    "name": "tygwan"
+  },
+  "homepage": "https://github.com/tygwan/claude-protocol",
+  "repository": "https://github.com/tygwan/claude-protocol",
+  "keywords": [
+    "design-sync",
+    "design-canon",
+    "handoff",
+    "human-approval"
+  ]
+}

@@ -1,0 +1,61 @@
+protocol_version: 1
+
+repository:
+  slug: owner/repository
+  base_branch: main
+  canon_path: docs/design-canon/route-canon
+  integrity_manifest: docs/design-canon/route-canon/SHA256SUMS
+  implementation_paths:
+    - apps/web
+
+design:
+  project_name: Example Product Design
+  project_id: replace-with-confirmed-id
+  retired_project_ids: []
+  fingerprint_files:
+    - Home.dc.html
+    - IMPLEMENT-home.md
+  root_patterns:
+    - "*.dc.html"
+  package_path: design-canon-package
+  handoff:
+    protocol: _handoff/PROTOCOL.md
+    requests: _handoff/requests
+    responses: _handoff/responses
+    verification: _handoff/verification
+
+ownership:
+  design_authoring_source: design.root_patterns
+  repository_canon: repository.canon_path
+  repository_managed_metadata:
+    - repository.integrity_manifest
+
+promotion:
+  atomic_unit: whole_snapshot
+  soft_authoring_limit_bytes: 200000
+  hard_transport_limit_bytes: 262144
+  allow_partial_overlay: false
+
+gates:
+  G0: protocol_owner
+  G1: product_owner
+  G2:
+    - product_owner
+    - design_reviewer
+  G3: product_owner
+  G4: domain_decider
+
+routes:
+  - route: /
+    design_file: Home.dc.html
+
+checks:
+  before_promotion:
+    - path_set
+    - bytes
+    - sha256
+    - unexpected_drift
+    - visual_review_summary
+  before_implementation_commit:
+    - live_browser
+    - accessibility
