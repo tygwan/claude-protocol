@@ -54,8 +54,8 @@ A project profile may map these to local labels such as G1, G2, or G3. Local lab
 Stop and report when any of these is true:
 
 - design project identity is ambiguous or retired,
-- repository base cannot be tied to a clean immutable commit,
-- ownership of authoring source or repository canon is ambiguous,
+- source baseline cannot be tied to an immutable revision,
+- ownership of authoring source or implementation reference is ambiguous,
 - request or response lineage is stale, missing, or overwritten,
 - the candidate is partial when the project requires whole-snapshot promotion,
 - path set, bytes, or SHA-256 differs from the authoritative manifest,
@@ -98,7 +98,7 @@ Read the newest non-superseded DRES, but preserve prior responses. After authori
 
 ### promote
 
-Require explicit design_acceptance for the exact verified response and candidate identity. Promote or publish the complete verified implementation reference using the configured adapter. Regenerate repository-managed integrity metadata when applicable. Never mix stale repository metadata into a Design-owned payload. Record implementation_reference_accepted only after acceptance and the configured reference update succeed.
+Require explicit design_acceptance for the exact verified response and candidate identity. Promote or publish the complete verified implementation reference using the configured adapter. Regenerate implementation-reference integrity metadata when applicable. Never mix stale adapter-managed metadata into a Design-owned payload. Record implementation_reference_accepted only after acceptance and the configured reference update succeed.
 
 ### implement
 
@@ -120,7 +120,7 @@ The DREQ classifies each viewport as `required`, `optional`, or `not_applicable`
 
 Maintain a cumulative decision set and echo the complete set after every answer. If a prior decision disappears or conflicts with a later report, stop before continuing.
 
-A required viewport needs actual evidence from a canonical canvas, component-state specification, or live render. If it remains unverified, design_acceptance stops unless the user explicitly accepts a named deferral to G3 with concrete acceptance checks. Implementation must verify that viewport before commit and must not silently change canon to make it pass.
+A required viewport needs actual evidence from a canonical canvas, component-state specification, or live render. If it remains unverified, design_acceptance stops unless the user explicitly accepts a named deferral to implementation_acceptance with concrete acceptance checks. Implementation must verify that viewport before commit and must not silently change canon to make it pass.
 
 At completion, produce one `visual-review-summary` containing every screen decision, viewport classification, evidence, explicit implementation-verification deferral, drift decision, overall approve/hold, and a zero-change assertion for the review phase.
 
@@ -131,7 +131,7 @@ Choose transport from proven capabilities, not file size alone.
 - Use direct shared storage only after project identity and bidirectional visibility are confirmed.
 - Use raw direct retrieval only when the receiver can persist exact bytes and independently reproduce the declared hash.
 - Use a manifest-bearing zip through the user when content exceeds a hard limit, is truncated, or exact raw retrieval is unavailable.
-- A zip relay is not G2 approval.
+- A zip relay is not design_acceptance.
 
 Do not calculate a claimed remote SHA from re-encoded model text.
 
