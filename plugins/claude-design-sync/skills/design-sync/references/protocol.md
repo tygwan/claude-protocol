@@ -89,15 +89,20 @@ A soft authoring guideline is not a transport limit. Record both independently.
 
 Visual approval belongs to the human owner. Design may guide navigation and summarize the result, but must not self-approve.
 
+The DREQ classifies every relevant viewport as `required`, `optional`, or `not_applicable`. The review decision for each viewport is `approve`, `hold`, `unverified`, or `not_applicable`.
+
 The cumulative approval record must include:
 
 - artifact ID and candidate digest,
 - screen/state identifier,
 - user decision,
 - reason when held,
-- viewport coverage,
+- viewport classification and evidence,
+- explicit G3 deferral and acceptance checks, if any,
 - intentional drift decision,
 - overall approve or hold.
+
+Missing evidence is `unverified`, never "no impact." A required viewport blocks G2 unless the user explicitly defers that exact coverage to G3. Such a deferral must identify the live-render checks that will block implementation commit if they fail.
 
 Conversation memory alone is not a durable approval ledger. Until a signed artifact format is implemented, echo the full decision set after each step and require the final summary to match.
 
