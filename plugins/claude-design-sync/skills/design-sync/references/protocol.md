@@ -5,22 +5,22 @@
 The protocol uses roles rather than hard-coding one orchestration product.
 
 - Human owner: approves scope and promotion.
-- Repository orchestrator: writes DREQ and verification artifacts, validates candidates, promotes canon, and coordinates implementation.
+- Workflow orchestrator: writes request and verification artifacts, validates candidates, publishes implementation references, and coordinates implementation.
 - Design author: owns the visual authoring source and writes DRES.
 - Independent auditor: optional; reviews protocol or disputed evidence but is not a mandatory relay.
 - Delivery adapter: applies the accepted implementation through the project's configured merge, changeset, publish, or deployment mechanism.
 - Domain decider: resolves clinical, legal, safety, or other regulated flags.
 
-Claude Code is the first repository-orchestrator adapter. Claude Design is the first design-author adapter. A future Codex adapter may fulfill repository orchestration without changing the core state machine.
+Claude Code is the first workflow-orchestrator adapter. Claude Design is the first design-author adapter. Future adapters may fulfill either role without changing the core lifecycle.
 
 ## Authority boundaries
 
 Projects must declare:
 
 - design authoring source,
-- repository implementation canon,
-- repository-managed metadata,
-- implementation paths,
+- accepted implementation reference,
+- adapter-managed integrity metadata,
+- implementation targets,
 - handoff storage,
 - human approval roles,
 - regulated decision roles,
@@ -116,11 +116,11 @@ Verification must compare:
 
 1. declared manifest path set,
 2. extracted candidate path set,
-3. current repository canon path set,
+3. current implementation-reference path set,
 4. byte count for every candidate file,
 5. SHA-256 for every candidate file,
 6. expected and unexpected diff,
-7. repository-managed metadata exclusions.
+7. adapter-managed metadata exclusions.
 
 No partial overlay is allowed unless the project profile explicitly defines a different atomic unit and its consistency rules.
 
@@ -130,7 +130,7 @@ A promoted snapshot is not coherent when its visual source changed but its imple
 
 Before merge, compare every changed authoring file with all companion files that instruct implementation. Stale prescriptive companions block merge even when hashes, CI, and the visual files themselves pass. Runtime deferral to implementation verification is allowed only for evidence that requires a live implementation; it must not be used to defer known canon contradictions.
 
-Repair a contradiction at the declared source owner. If the companion belongs to the Design-authored candidate, request an append-only superseding response and re-run verification and design_acceptance. If it is repository-managed metadata, update it through the repository's approved same-change path and regenerate integrity metadata. Never resolve the contradiction by editing a read-only canon copy or by merging first and promising later cleanup.
+Repair a contradiction at the declared source owner. If the companion belongs to the Design-authored candidate, request an append-only superseding response and re-run verification and design_acceptance. If it is adapter-managed metadata, update it through the configured same-change path and regenerate integrity metadata. Never resolve the contradiction by editing a read-only canon copy or by merging first and promising later cleanup.
 
 ## Transport decision
 
@@ -160,7 +160,7 @@ The cumulative approval record must include:
 - user decision,
 - reason when held,
 - viewport classification and evidence,
-- explicit G3 deferral and acceptance checks, if any,
+- explicit implementation-verification deferral and acceptance checks, if any,
 - intentional drift decision,
 - overall approve or hold.
 
