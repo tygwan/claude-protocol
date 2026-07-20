@@ -4,7 +4,7 @@ This log records evidence from the first real design-sync pilot. Product-specifi
 
 ## Pilot 001 — design recut and canon promotion preflight
 
-Status: in progress. Completed through Design response, verified zip recovery, technical G2 preflight, and human visual review in progress.
+Status: in progress. Completed through Design response, verified zip recovery, technical G2 preflight, and conditional human visual approval. Explicit G2 promotion approval is pending.
 
 ### Confirmed capabilities
 
@@ -29,6 +29,16 @@ Status: in progress. Completed through Design response, verified zip recovery, t
 | A component-state strip approximated mobile width but no full mobile screen existed | Component evidence could be mistaken for full-page evidence | Record the evidence type and require the actual composition in G3 |
 | The user relayed every intermediate message through an independent reviewer | Manual bottleneck | Keep routine visual review inside Design; make independent audit optional |
 | A dirty long-lived worktree existed beside the pilot | Accidental loss of unrelated work | Use a clean sibling worktree from an immutable base and never clean the legacy tree |
+
+### Visual review checkpoint
+
+- Four screen-level decisions were explicitly approved: explore, detail, guardian sheet, and child completion.
+- Mobile 390 was approved from canonical frames, DOM measurements, and a component-state specification; the full Explore restricted composition was deferred to G3.
+- Tablet 768 was recorded as unverified rather than "no impact." The user explicitly allowed deferral to G3 because viewport coverage was absent from the DREQ.
+- Desktop 1280 was approved only where canon evidence existed. Mobile-only routes were marked not applicable instead of being inferred.
+- The pre-existing documentation-only drift was explicitly preserved.
+- G3 inherited concrete blocking checks. Visual approval did not execute or imply G2.
+- The review phase changed zero files.
 
 ### Open questions
 
