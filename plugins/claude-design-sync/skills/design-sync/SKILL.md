@@ -85,9 +85,13 @@ Create DVER only after implementation and the required deployment or browser ver
 
 Keep the visual review inside the Claude Design session when possible. The user, not another model, approves each screen.
 
+The DREQ should classify each viewport as `required`, `optional`, or `not_applicable`. A decision must be one of `approve`, `hold`, `unverified`, or `not_applicable`; never translate missing evidence into "no impact."
+
 Maintain a cumulative decision set and echo the complete set after every answer. If a prior decision disappears or conflicts with a later report, stop before continuing.
 
-At completion, produce one `visual-review-summary` containing every screen decision, viewport decision, drift decision, overall approve/hold, and a zero-change assertion for the review phase.
+A required viewport needs actual evidence from a canonical canvas, component-state specification, or live render. If a required viewport remains unverified, G2 stops unless the user explicitly accepts a named deferral to G3 with concrete acceptance checks. The implementation must verify that viewport before commit and must not silently change canon to make it pass.
+
+At completion, produce one `visual-review-summary` containing every screen decision, viewport classification, evidence, any explicit G3 deferral, drift decision, overall approve/hold, and a zero-change assertion for the review phase.
 
 ## Transport
 
