@@ -3,13 +3,13 @@
   "owner": {
     "name": "tygwan"
   },
-  "description": "Experimental, human-gated collaboration protocols for Claude Code and Claude Design.",
+  "description": "Experimental continuous design-to-delivery collaboration protocols.",
   "plugins": [
     {
       "name": "claude-design-sync",
       "source": "./plugins/claude-design-sync",
-      "description": "Govern design handoffs and produce evidence-backed visual, UI, UX, accessibility, and responsive reviews.",
-      "version": "0.1.0-alpha.2",
+      "description": "Manage design requests through authored design, verified implementation, delivery, and closure.",
+      "version": "0.1.0-alpha.3",
       "author": {
         "name": "tygwan"
       },
