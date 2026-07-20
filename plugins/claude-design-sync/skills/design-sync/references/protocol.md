@@ -70,6 +70,14 @@ Verification must compare:
 
 No partial overlay is allowed unless the project profile explicitly defines a different atomic unit and its consistency rules.
 
+## Canon coherence
+
+A promoted snapshot is not coherent when its visual source changed but its implementation brief, route mapping, generated reference, or other prescriptive companion still describes the previous state.
+
+Before merge, compare every changed authoring file with all companion files that instruct implementation. Stale prescriptive companions block merge even when hashes, CI, and the visual files themselves pass. Runtime deferral to G3 is allowed only for evidence that requires a live implementation; it must not be used to defer known canon contradictions.
+
+Repair a contradiction at the declared source owner. If the companion belongs to the Design-authored candidate, request an append-only superseding response and re-run verification and G2. If it is repository-managed metadata, update it through the repository's approved same-change path and regenerate integrity metadata. Never resolve the contradiction by editing a read-only canon copy or by merging first and promising later cleanup.
+
 ## Transport decision
 
 Transport selection is capability-based:
