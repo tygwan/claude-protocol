@@ -25,6 +25,8 @@ Status: in progress. Completed through Design response, verified zip recovery, t
 | A malformed closing tag was found after the first DRES | Broken canvas structure | Preserve the old DRES and publish a superseding sequence |
 | A request was sent to the wrong actor | Ownership boundary violation | Put an explicit destination label on every instruction and hard-stop wrong-actor work |
 | Human approval was remembered in one turn and missing in the next | Gate loss through chat state | Maintain a cumulative decision ledger and stop on inconsistent state |
+| Viewport approval was requested where no dedicated render existed | Unsupported "no impact" inference | Classify viewport coverage in DREQ; record missing evidence as unverified; require explicit G3 deferral |
+| A component-state strip approximated mobile width but no full mobile screen existed | Component evidence could be mistaken for full-page evidence | Record the evidence type and require the actual composition in G3 |
 | The user relayed every intermediate message through an independent reviewer | Manual bottleneck | Keep routine visual review inside Design; make independent audit optional |
 | A dirty long-lived worktree existed beside the pilot | Accidental loss of unrelated work | Use a clean sibling worktree from an immutable base and never clean the legacy tree |
 
