@@ -14,8 +14,10 @@ repo_base_ref: "{branch}"
 design_project_name: "{name}"
 design_project_id: "{id-or-unavailable}"
 created_at: "{ISO-8601}"
+requested_outcome: "{design_only|implementation_reference|implemented|delivered}"
+lifecycle_state: request_drafting
 max_file_size_kb: 200
-approval_owner_role: product_owner
+request_scope_approval_owner_role: product_owner
 target_routes: []
 target_design_files: []
 base_files:
@@ -47,6 +49,7 @@ request_id: DREQ-{work_id}-{request_seq}
 response_id: DRES-{work_id}-{request_seq}-{response_seq}
 supersedes: null
 result_status: complete
+lifecycle_state: design_authored
 completed_at: "{ISO-8601}"
 changed_root_files: []
 created_root_files: []
@@ -90,7 +93,7 @@ viewports:
     classification: required
     decision: unverified
     evidence: null
-    deferred_to: G3
+    deferred_to: implementation_acceptance
     acceptance_checks:
       - no_overflow
       - touch_targets
@@ -100,8 +103,27 @@ intentional_drift:
     decision: preserve
 overall: approve
 files_changed_during_review: 0
+approved_gate: design_acceptance
 approved_by_role: product_owner
 ```
+
+## workflow-checkpoint
+
+```yaml
+request_id: DREQ-{work_id}-{request_seq}
+requested_outcome: delivered
+lifecycle_state: candidate_verified
+design_artifacts_changed: true
+actual_product_changed: false
+visible_in_target_environment: false
+blocking_gate: design_acceptance
+blockers: []
+next_action: accept_verified_implementation_reference
+next_actor: product_owner
+audit_reference: "{verification-report-id-or-path}"
+```
+
+Use this compact shape at every pause and session resume. Do not expose the audit reference contents in normal mode unless verification failed, identity changed, recovery is required, or the user requests audit.
 
 ## DVER
 
@@ -111,9 +133,17 @@ request_id: DREQ-{work_id}-{request_seq}
 verification_id: DVER-{work_id}-{request_seq}-{verification_seq}
 repo_commit: "{sha}"
 pull_request: "{url-or-number}"
-implemented_routes: []
+requested_outcome: delivered
+lifecycle_state: delivered
+implementation_reference: "{artifact-id-or-version}"
+implemented_surfaces: []
+verification_environments: []
 viewports: []
-deployment_status: "{not-run|live|failed}"
+implementation_acceptance: "{approved|held|not_required}"
+delivery_mechanism: "{merge|changeset|publish|deploy|other}"
+delivery_status: "{not-run|delivered|failed}"
+target_environment: "{environment-or-not-applicable}"
+visible_to_target_users: "{yes|no|unverified}"
 design_rereview_requested: false
 ---
 
@@ -126,4 +156,6 @@ design_rereview_requested: false
 ## intentional deviations
 
 ## unresolved defects
+
+## closure decision
 ```
