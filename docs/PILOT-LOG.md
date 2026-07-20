@@ -4,7 +4,7 @@ This log records evidence from the first real design-sync pilot. Product-specifi
 
 ## Pilot 001 — design recut and canon promotion preflight
 
-Status: in progress. Completed through Design response, verified zip recovery, conditional human visual approval, and creation of an unmerged G2 promotion PR. Audit ratification of the exact candidate digest and external CI recovery are pending.
+Status: in progress. Completed through Design response, verified zip recovery, conditional human visual approval, creation of an unmerged G2 promotion PR, and explicit ratification of the exact artifact identity. External CI recovery and merge are pending.
 
 ### Confirmed capabilities
 
@@ -31,6 +31,13 @@ Status: in progress. Completed through Design response, verified zip recovery, c
 | A component-state strip approximated mobile width but no full mobile screen existed | Component evidence could be mistaken for full-page evidence | Record the evidence type and require the actual composition in G3 |
 | The user relayed every intermediate message through an independent reviewer | Manual bottleneck | Keep routine visual review inside Design; make independent audit optional |
 | A dirty long-lived worktree existed beside the pilot | Accidental loss of unrelated work | Use a clean sibling worktree from an immutable base and never clean the legacy tree |
+
+### Authorization recovery checkpoint
+
+- The user explicitly voided both incorrectly transcribed zip digests and ratified the exact verified candidate digest, DRES digest, 36-file snapshot, and immutable PR head.
+- The executor recorded that correction in the unmerged promotion PR without changing code, documents, commits, or branches.
+- This recovered the G2 audit trail but did not authorize merge or G3.
+- Three required workflows failed before executing any steps because of an external GitHub Actions account gate; no code workaround or retry was attempted.
 
 ### Visual review checkpoint
 
@@ -70,7 +77,7 @@ A remote API update also produced a duplicated skill file while reporting succes
 
 ### Alpha exit evidence still required
 
-- Ratify the exact G2 artifact identity, restore CI, and merge the promotion PR into repository canon
+- Restore external CI and merge the explicitly ratified promotion PR into repository canon
 - Implement the approved design
 - Complete live-browser G3
 - Publish DVER
