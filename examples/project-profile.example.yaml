@@ -1,14 +1,18 @@
 protocol_version: 1
 
-repository:
-  slug: owner/repository
-  base_branch: main
-  canon_path: docs/design-canon/route-canon
-  integrity_manifest: docs/design-canon/route-canon/SHA256SUMS
-  implementation_paths:
-    - apps/web
+workflow:
+  requested_outcome_default: delivered
+  state_index: .design-sync/state.yaml
+  normal_output: compact
+  audit_output: on_request_or_failure
 
-design:
+source_control:
+  type: git
+  repository: owner/repository
+  base_ref: main
+
+design_authoring:
+  adapter: claude_design
   project_name: Example Product Design
   project_id: replace-with-confirmed-id
   retired_project_ids: []
@@ -24,41 +28,78 @@ design:
     responses: _handoff/responses
     verification: _handoff/verification
 
-ownership:
-  design_authoring_source: design.root_patterns
-  repository_canon: repository.canon_path
-  repository_managed_metadata:
-    - repository.integrity_manifest
-
-promotion:
+implementation_reference:
+  adapter: repository_snapshot
+  location: docs/design-canon/route-canon
+  integrity_manifest: docs/design-canon/route-canon/SHA256SUMS
   atomic_unit: whole_snapshot
-  soft_authoring_limit_bytes: 200000
-  hard_transport_limit_bytes: 262144
   allow_partial_overlay: false
 
-gates:
-  G0: protocol_owner
-  G1: product_owner
-  G2:
-    - product_owner
-    - design_reviewer
-  G3: product_owner
-  G4: domain_decider
+implementation:
+  adapter: claude_code
+  targets:
+    - apps/web
 
-routes:
-  - route: /
-    design_file: Home.dc.html
+delivery:
+  adapter: pull_request
+  target_environment: development
+  requires_delivery_approval: true
 
-checks:
-  before_promotion:
+verification:
+  candidate:
     - path_set
     - bytes
     - sha256
     - unexpected_drift
+    - companion_coherence
     - visual_review_summary
-  before_implementation_commit:
-    - live_browser
-    - accessibility
+  implementation:
+    adapter: live_browser
+    checks:
+      - reference_fidelity
+      - accessibility
+      - responsive_layout
+  delivery:
+    adapter: target_environment_recheck
+  final_record:
+    type: DVER
+    location: _handoff/verification
+
+ownership:
+  design_authoring_source: design_authoring.root_patterns
+  implementation_reference: implementation_reference.location
+  implementation_targets: implementation.targets
+  repository_managed_metadata:
+    - implementation_reference.integrity_manifest
+
+transport:
+  soft_authoring_limit_bytes: 200000
+  hard_transport_limit_bytes: 262144
+  zip_fallback: true
+
+gates:
+  request_scope_approval:
+    role: product_owner
+    local_alias: G1
+  design_acceptance:
+    roles:
+      - product_owner
+      - design_reviewer
+    local_alias: G2
+  implementation_acceptance:
+    role: product_owner
+    local_alias: G3
+  delivery_approval:
+    role: product_owner
+    local_alias: null
+  regulated_decision:
+    role: domain_decider
+    local_alias: G4
+
+surfaces:
+  - implementation_target: apps/web
+    route: /
+    design_file: Home.dc.html
 
 review:
   conformance_target: WCAG_2_2_AA
@@ -69,9 +110,10 @@ review:
       classification: required
     - width: 1280
       classification: optional
-  evidence_required_for_approval:
+  evidence_required_for_design_acceptance:
     - canonical_artifact
-    - live_render_at_G3
+  evidence_required_for_implementation_acceptance:
+    - live_render
   allowed_decisions:
     - approve
     - hold
