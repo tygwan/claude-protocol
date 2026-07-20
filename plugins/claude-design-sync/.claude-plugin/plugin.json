@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "claude-design-sync",
-  "version": "0.1.0-alpha.1",
-  "description": "Human-gated, append-only design handoffs between Claude Code, Claude Design, and a repository.",
+  "version": "0.1.0-alpha.2",
+  "description": "Human-gated design handoffs plus evidence-backed visual, UI, UX, accessibility, and responsive review.",
   "author": {
     "name": "tygwan"
   },

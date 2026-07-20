@@ -8,6 +8,7 @@
 - [x] Whole-snapshot verification rules
 - [x] Capability-based transport fallback
 - [x] Cumulative visual-review decisions
+- [x] Modular design, UI, UX, accessibility, responsive, and domain-boundary review framework
 - [ ] Complete the first pilot through DVER
 - [ ] Validate with `claude plugin validate .`
 - [ ] Local installation smoke test

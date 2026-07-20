@@ -41,6 +41,23 @@ Status: in progress. Completed through Design response, verified zip recovery, t
 - G3 inherited concrete blocking checks. Visual approval did not execute or imply G2.
 - The review phase changed zero files.
 
+### Review-framework extraction
+
+The pilot showed that workflow rules and review judgment should not live in one instruction file. The alpha now separates:
+
+- orchestration and gates,
+- evidence and decision quality,
+- visual hierarchy and state identity,
+- UI interaction,
+- UX flow and copy truth,
+- accessibility,
+- responsive evidence,
+- domain ownership boundaries.
+
+The framework publishes criteria and concise rationale, not private hidden reasoning. Its purpose is reproducibility: another reviewer should be able to inspect the same evidence and understand why a finding was made.
+
+A remote API update also produced a duplicated skill file while reporting success. The branch was repaired with an atomic full-tree commit, and complete remote re-read is now required after writes.
+
 ### Open questions
 
 - Durable, machine-readable human approval signatures

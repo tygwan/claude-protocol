@@ -2,7 +2,7 @@
 
 A Claude Code plugin for governing design handoffs between a repository, a Claude Design project, and a human approver.
 
-> Status: `v0.1.0-alpha.1`. This is a working pilot baseline, not a production-stable protocol.
+> Status: `v0.1.0-alpha.2`. This is a working pilot baseline, not a production-stable protocol.
 
 ## What it provides
 
@@ -13,6 +13,7 @@ A Claude Code plugin for governing design handoffs between a repository, a Claud
 - Whole-snapshot promotion with path, byte, and SHA-256 verification
 - Capability-based transport selection, including verified zip relay
 - A cumulative visual-review decision format
+- A modular, evidence-backed design/UI/UX review framework
 - Project-specific configuration without hard-coding one product
 
 It does not provide a Claude Design transport or project API. It orchestrates whichever design tools are available and stops when their capabilities cannot prove a safe handoff.
@@ -31,7 +32,13 @@ Then start with:
 
 ```text
 /claude-design-sync:design-sync status
+/claude-design-sync:design-review all
 ```
+
+The two skills are intentionally separate:
+
+- `design-sync` controls artifacts, gates, transport, and promotion.
+- `design-review` supplies review criteria for visual design, UI interaction, UX/copy, accessibility, responsive behavior, and domain boundaries.
 
 For local development:
 
@@ -67,7 +74,8 @@ Clinical or other regulated decisions remain outside the design gate and require
 ## Repository layout
 
 - `.claude-plugin/marketplace.json`: installable marketplace catalog
-- `plugins/claude-design-sync/`: Claude Code plugin
+- `plugins/claude-design-sync/skills/design-sync/`: workflow and gate orchestration
+- `plugins/claude-design-sync/skills/design-review/`: modular review framework
 - `examples/project-profile.example.yaml`: portable project configuration
 - `docs/PILOT-LOG.md`: observed failures and protocol changes
 - `docs/ROADMAP.md`: path from alpha to v1

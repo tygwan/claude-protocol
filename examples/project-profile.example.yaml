@@ -59,3 +59,21 @@ checks:
   before_implementation_commit:
     - live_browser
     - accessibility
+
+review:
+  conformance_target: WCAG_2_2_AA
+  viewports:
+    - width: 390
+      classification: required
+    - width: 768
+      classification: required
+    - width: 1280
+      classification: optional
+  evidence_required_for_approval:
+    - canonical_artifact
+    - live_render_at_G3
+  allowed_decisions:
+    - approve
+    - hold
+    - unverified
+    - not_applicable

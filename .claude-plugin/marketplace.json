@@ -8,8 +8,8 @@
     {
       "name": "claude-design-sync",
       "source": "./plugins/claude-design-sync",
-      "description": "Govern design handoffs with append-only artifacts, verified snapshots, and explicit human gates.",
-      "version": "0.1.0-alpha.1",
+      "description": "Govern design handoffs and produce evidence-backed visual, UI, UX, accessibility, and responsive reviews.",
+      "version": "0.1.0-alpha.2",
       "author": {
         "name": "tygwan"
       },
