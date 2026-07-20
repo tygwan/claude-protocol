@@ -4,7 +4,7 @@ This log records evidence from the first real design-sync pilot. Product-specifi
 
 ## Pilot 001 — design recut and canon promotion preflight
 
-Status: in progress. Completed through Design response, verified zip recovery, technical G2 preflight, and conditional human visual approval. Explicit G2 promotion approval is pending.
+Status: in progress. Completed through Design response, verified zip recovery, conditional human visual approval, and creation of an unmerged G2 promotion PR. Audit ratification of the exact candidate digest and external CI recovery are pending.
 
 ### Confirmed capabilities
 
@@ -22,6 +22,7 @@ Status: in progress. Completed through Design response, verified zip recovery, t
 | A large HTML file was byte-truncated during tool retrieval | Corrupt canon and false hashes | Treat truncation as a hard stop; forbid text reconstruction |
 | Remote size/hash metadata could not independently prove local raw bytes | False integrity confidence | Choose transport by capability, not size; use verified zip fallback |
 | An approval prompt manually transcribed a verified zip SHA with one extra character | Approval bound to a nonexistent artifact | Validate 64 lowercase hex characters and source the digest directly from verifier output before requesting approval |
+| A second manually corrected digest was still transposed, while the executor used the correct disk artifact and continued | Technically correct mutation with an invalid authorization chain | Bind approval to one identity tuple; any contradictory identifier hard-stops; require explicit ratification before merge |
 | Package metadata lagged behind the repository while design files were current | Whole-snapshot promotion would revert protocol docs | Separate Design-owned payload from repository-managed metadata and diff the full snapshot |
 | A malformed closing tag was found after the first DRES | Broken canvas structure | Preserve the old DRES and publish a superseding sequence |
 | A request was sent to the wrong actor | Ownership boundary violation | Put an explicit destination label on every instruction and hard-stop wrong-actor work |
@@ -60,7 +61,7 @@ A remote API update also produced a duplicated skill file while reporting succes
 
 ### Open questions
 
-- Durable, machine-readable human approval signatures
+- Verifier-generated approval tokens and durable, machine-readable human signatures
 - A deterministic verifier CLI for archive safety, manifests, bytes, and SHA-256
 - Standard adapters for differing Design tool capabilities
 - Reliable viewport capture and visual-diff evidence
@@ -69,7 +70,7 @@ A remote API update also produced a duplicated skill file while reporting succes
 
 ### Alpha exit evidence still required
 
-- Complete G2 promotion into repository canon
+- Ratify the exact G2 artifact identity, restore CI, and merge the promotion PR into repository canon
 - Implement the approved design
 - Complete live-browser G3
 - Publish DVER
