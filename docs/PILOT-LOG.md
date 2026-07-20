@@ -31,7 +31,9 @@ Status: in progress. Completed through Design response, verified zip recovery, c
 | A component-state strip approximated mobile width but no full mobile screen existed | Component evidence could be mistaken for full-page evidence | Record the evidence type and require the actual composition in G3 |
 | The user relayed every intermediate message through an independent reviewer | Manual bottleneck | Keep routine visual review inside Design; make independent audit optional |
 | A dirty long-lived worktree existed beside the pilot | Accidental loss of unrelated work | Use a clean sibling worktree from an immutable base and never clean the legacy tree |
-| Visual canon changed while three implementation briefs remained byte-identical to the old baseline | Implementers could faithfully recreate removed states and dead actions | Treat prescriptive companion drift as a pre-merge coherence failure; repair at the owning source and re-verify rather than defer to G3 |
+| Visual canon changed while three implementation briefs remained byte-identical to the old baseline | Implementers could faithfully recreate removed states and dead actions | Treat prescriptive companion drift as a pre-merge coherence failure; repair at the owning source and re-verify rather than defer to runtime validation |
+| Detailed design-artifact checks obscured whether the real product or target environment had changed | Users could mistake accepted design for delivered product and had to restart later phases manually | Separate outcome-layer states, report user impact at every checkpoint, and retain workflow ownership through the requested terminal outcome |
+| Numbered gates and repository-specific promotion language leaked into the reusable core | Other tools and delivery models would require protocol forks | Use semantic gates and move source, reference, implementation, delivery, and verification mechanics into project adapters |
 
 ### Authorization recovery checkpoint
 
