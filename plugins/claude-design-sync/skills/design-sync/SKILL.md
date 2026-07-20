@@ -110,6 +110,12 @@ Do not calculate a claimed remote SHA from re-encoded model text.
 
 Before emitting or accepting a SHA-256 value, validate it against `^[0-9a-f]{64}$` and re-read it from the verifier artifact. Never rely on manual transcription, abbreviated display text, Markdown emphasis, or a prior conversational summary for an approval-bound digest.
 
+An approval is bound to one verified identity tuple: artifact or response ID, its full digest, the candidate digest, and any immutable repository head named by the gate. Every repeated identifier must agree. If even one approval-bound value is malformed or contradicts verifier evidence, the gate is invalid even when the bytes on disk are otherwise correct. An agent must not silently substitute a measured value for the value the user approved.
+
+A corrected gate requires explicit user ratification that voids the erroneous value and restates the complete verified identity tuple. Post-mutation ratification may repair the audit trail only while the result is still reversible and unmerged; it does not authorize merge or the next gate.
+
+Prefer a verifier-generated approval token or canonical report reference over copying long digests into conversational prose.
+
 After any remote write, re-read the complete file from the target branch and check for truncation, duplication, or encoding damage. A successful API response is not proof of correct content.
 
 A malformed or mismatched digest, or a corrupted remote file, is a hard stop and requires correction before the next gate.
