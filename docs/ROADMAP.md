@@ -9,21 +9,26 @@
 - [x] Capability-based transport fallback
 - [x] Cumulative visual-review decisions
 - [x] Modular design, UI, UX, accessibility, responsive, and domain-boundary review framework
+- [x] Outcome-layer lifecycle and semantic gates
+- [x] Adapter-oriented project profile
+- [x] Compact checkpoint and audit-output separation
 - [ ] Complete the first pilot through DVER
 - [ ] Validate with `claude plugin validate .`
 - [ ] Local installation smoke test
+- [ ] Add the user-facing `/design` front door
+- [ ] Add guided first-run setup and durable resume index
 
 ## v0.2 alpha — deterministic verification
 
 - [ ] Add a portable verifier CLI
 - [ ] Validate zip safety, path sets, bytes, and SHA-256
 - [ ] Generate candidate digests and machine-readable reports
-- [ ] Add protocol state and lineage validation
+- [ ] Add protocol state, requested-outcome, lifecycle, and lineage validation
 - [ ] Add fixtures for truncation, stale metadata, partial snapshots, and superseded responses
 
 ## v0.3 alpha — adapter separation
 
-- [ ] Define repository-orchestrator adapter interface
+- [ ] Stabilize the repository-orchestrator adapter interface
 - [ ] Define Claude Design capability discovery
 - [ ] Add optional Codex repository adapter
 - [ ] Keep the protocol core vendor-neutral where evidence permits
