@@ -9,8 +9,8 @@ These are minimal shapes. Projects may add fields but should not weaken lineage,
 request_id: DREQ-{work_id}-{request_seq}
 supersedes: null
 source_work_item: "{id-or-url}"
-repo_base_commit: "{immutable-sha}"
-repo_base_ref: "{branch}"
+source_baseline_revision: "{immutable-revision}"
+source_baseline_ref: "{optional-ref}"
 design_project_name: "{name}"
 design_project_id: "{id-or-unavailable}"
 created_at: "{ISO-8601}"
@@ -22,7 +22,7 @@ target_routes: []
 target_design_files: []
 base_files:
   - design_path: "{path}"
-    repo_path: "{path}"
+    implementation_reference_path: "{path}"
     bytes: 0
     sha256: "{sha256}"
 requested_outputs:
@@ -48,13 +48,13 @@ requested_outputs:
 request_id: DREQ-{work_id}-{request_seq}
 response_id: DRES-{work_id}-{request_seq}-{response_seq}
 supersedes: null
-result_status: complete
+result_status: design_authored
 lifecycle_state: design_authored
 completed_at: "{ISO-8601}"
 changed_root_files: []
 created_root_files: []
 unchanged_reference_files: []
-files_repository_orchestrator_should_fetch: []
+files_orchestrator_should_fetch: []
 promotion_snapshot_files: []
 ---
 
@@ -131,10 +131,10 @@ Use this compact shape at every pause and session resume. Do not expose the audi
 ---
 request_id: DREQ-{work_id}-{request_seq}
 verification_id: DVER-{work_id}-{request_seq}-{verification_seq}
-repo_commit: "{sha}"
-pull_request: "{url-or-number}"
+implementation_revision: "{immutable-revision}"
+change_delivery_reference: "{adapter-specific-reference}"
 requested_outcome: delivered
-lifecycle_state: delivered
+lifecycle_state: closed
 implementation_reference: "{artifact-id-or-version}"
 implemented_surfaces: []
 verification_environments: []
@@ -142,6 +142,7 @@ viewports: []
 implementation_acceptance: "{approved|held|not_required}"
 delivery_mechanism: "{merge|changeset|publish|deploy|other}"
 delivery_status: "{not-run|delivered|failed}"
+delivered_at: "{ISO-8601-or-null}"
 target_environment: "{environment-or-not-applicable}"
 visible_to_target_users: "{yes|no|unverified}"
 design_rereview_requested: false
