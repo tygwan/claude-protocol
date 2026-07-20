@@ -81,7 +81,20 @@ decisions:
     reason: null
 viewports:
   - width: 390
+    classification: required
     decision: approve
+    evidence: "{canonical-canvas-or-live-render}"
+    deferred_to: null
+    acceptance_checks: []
+  - width: 768
+    classification: required
+    decision: unverified
+    evidence: null
+    deferred_to: G3
+    acceptance_checks:
+      - no_overflow
+      - touch_targets
+      - responsive_layout
 intentional_drift:
   - id: "{drift-id}"
     decision: preserve
