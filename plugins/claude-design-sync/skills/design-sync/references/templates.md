@@ -110,20 +110,82 @@ approved_by_role: product_owner
 ## workflow-checkpoint
 
 ```yaml
-request_id: DREQ-{work_id}-{request_seq}
+schema_version: 1.0.0-alpha.4
+work_id: "{work_id}"
 requested_outcome: delivered
 lifecycle_state: candidate_verified
 design_artifacts_changed: true
 actual_product_changed: false
-visible_in_target_environment: false
+visible_in_target_environment: "no"
 blocking_gate: design_acceptance
 blockers: []
 next_action: accept_verified_implementation_reference
 next_actor: product_owner
+last_event_id: EVT-{work_id}-{event_seq}
+active_artifacts:
+  - DREQ-{work_id}-{request_seq}
 audit_reference: "{verification-report-id-or-path}"
+updated_at: "{ISO-8601}"
 ```
 
 Use this compact shape at every pause and session resume. Do not expose the audit reference contents in normal mode unless verification failed, identity changed, recovery is required, or the user requests audit.
+
+## machine handoff envelope
+
+The JSON record must validate against `schemas/handoff-envelope.schema.json`. Keep the artifact body and large manifest outside the envelope and reference them by path.
+
+```yaml
+schema_version: 1.0.0-alpha.4
+envelope_id: ENV-{work_id}-{sequence}
+work_id: "{work_id}"
+artifact_id: DRES-{work_id}-{request_seq}-{response_seq}
+artifact_kind: DRES
+producer: {role: design_author, adapter: claude_design}
+consumer: {role: workflow_orchestrator, adapter: claude_code}
+created_at: "{ISO-8601}"
+payload:
+  - path: _handoff/responses/DRES-{work_id}-{request_seq}-{response_seq}.md
+    media_type: text/markdown
+    bytes: null
+    sha256: null
+integrity:
+  declared_digest: null
+  digest_status: unavailable_at_source
+  manifest_reference: "{path-or-null}"
+required_receiver_checks: [identity, lineage, path_set, raw_bytes, digest, truncation, schema]
+next_semantic_gate: design_acceptance
+```
+
+## receiver receipt
+
+The receiver writes this after independent retrieval and validates it against `schemas/receiver-receipt.schema.json`.
+
+```yaml
+schema_version: 1.0.0-alpha.4
+receipt_id: RCP-{work_id}-{sequence}
+envelope_id: ENV-{work_id}-{sequence}
+work_id: "{work_id}"
+receiver: {role: workflow_orchestrator, adapter: claude_code}
+received_at: "{ISO-8601}"
+status: accepted
+checks:
+  identity: true
+  lineage: true
+  path_set: true
+  raw_bytes: true
+  digest: true
+  truncation: true
+  schema: true
+measured_payload:
+  - {path: "{path}", bytes: 0, sha256: "{sha256}"}
+measured_candidate_digest: "{sha256}"
+reasons: []
+recovery_action: null
+resulting_state: candidate_verified
+next_actor: product_owner
+```
+
+Events are one JSON object per line and validate against `schemas/event.schema.json`. Do not use Markdown chat summaries as the event stream.
 
 ## DVER
 

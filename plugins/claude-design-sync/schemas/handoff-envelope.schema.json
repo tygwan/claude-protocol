@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/tygwan/claude-protocol/schemas/handoff-envelope.schema.json",
+  "title": "Claude Design Sync handoff envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "envelope_id",
+    "work_id",
+    "artifact_id",
+    "artifact_kind",
+    "producer",
+    "consumer",
+    "created_at",
+    "payload",
+    "integrity",
+    "required_receiver_checks"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0-alpha.4"
+    },
+    "envelope_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "work_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_kind": {
+      "enum": ["DREQ", "DRES", "DVER", "checkpoint", "candidate"]
+    },
+    "producer": {
+      "$ref": "#/$defs/actor"
+    },
+    "consumer": {
+      "$ref": "#/$defs/actor"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_revision": {
+      "type": ["string", "null"]
+    },
+    "payload": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "media_type"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "media_type": {"type": "string", "minLength": 1},
+          "bytes": {"type": ["integer", "null"], "minimum": 0},
+          "sha256": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declared_digest", "digest_status"],
+      "properties": {
+        "declared_digest": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "digest_status": {
+          "enum": ["measured_at_source", "unavailable_at_source"]
+        },
+        "manifest_reference": {
+          "type": ["string", "null"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"digest_status": {"const": "measured_at_source"}}},
+          "then": {"properties": {"declared_digest": {"type": "string"}}}
+        },
+        {
+          "if": {"properties": {"digest_status": {"const": "unavailable_at_source"}}},
+          "then": {"properties": {"declared_digest": {"type": "null"}}}
+        }
+      ]
+    },
+    "required_receiver_checks": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["identity", "lineage", "path_set", "raw_bytes", "digest", "truncation", "schema"]
+      }
+    },
+    "next_semantic_gate": {
+      "type": ["string", "null"]
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "adapter"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "adapter": {"type": "string", "minLength": 1},
+        "instance": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

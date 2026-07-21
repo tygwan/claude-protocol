@@ -47,6 +47,21 @@ DRES-{work_id}-{request_seq}-{response_seq}
 DVER-{work_id}-{request_seq}-{verification_seq}
 ```
 
+## Typed handoff and receipts
+
+Every cross-actor transfer uses two records:
+
+1. an immutable producer envelope describing what was sent and what the receiver must check,
+2. an immutable receiver receipt describing what was actually read, measured, and accepted or rejected.
+
+The producer envelope is a claim. Only the receiver receipt can establish reception. Neither record grants a human gate.
+
+When a producer cannot measure raw bytes, it records `declared_digest: null` and `digest_status: unavailable_at_source`. It never uses a placeholder digest as an approval identity.
+
+Persist a minimal append-only event log for state transitions and decisions. Conversation transcripts and model reasoning are not workflow state. Resume derives from validated artifacts, receipts, events, and the current checkpoint. See `handoff-and-events.md` and the JSON Schemas in the plugin's `schemas/` directory.
+
+The core defines required durable information; a project profile defines storage, retention, privacy, and compaction.
+
 ## Outcome lifecycle
 
 The core tracks distinct result layers:
@@ -91,7 +106,7 @@ Every checkpoint states:
 - next action,
 - next actor.
 
-Normal mode shows this summary, the decision required, and the next action. Audit mode adds hashes, manifests, lineage, verifier output, and recovery history. Automatically expand audit details only on verification failure, identity mismatch, approval-target change, or recovery.
+Normal mode shows this summary, the decision required, and the next action. Audit mode adds hashes, manifests, lineage, receipts, verifier output, and recovery history. Automatically expand audit details whenever evidence or authorization is ambiguous, including verification failure, identity mismatch, approval-target change, conflicting receipts, schema incompatibility, stale lineage, or recovery.
 
 ## Adapters
 
@@ -106,6 +121,14 @@ The core does not require a repository path, framework, branch model, pull reque
 - final verification format.
 
 Adapters translate core operations into local tools without changing lifecycle state or gate meaning.
+
+## Advisory intelligence providers
+
+Optional design-intelligence providers may enrich discovery and critique. They are read-only advisory sources by default, load only when a configured activation trigger is present, and rank below project truth and accepted canon.
+
+Providers cannot approve gates, decide policy, expand scope, edit artifacts, persist design systems, or implement code unless the project profile explicitly grants that capability. Pin provider versions per active request and record accepted or rejected advice. Provider guidance is evidence, not authority.
+
+Do not make an external marketplace plugin a hard dependency of the core when the workflow can operate without it.
 
 
 ## Snapshot promotion

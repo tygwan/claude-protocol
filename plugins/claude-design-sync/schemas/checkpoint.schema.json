@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/tygwan/claude-protocol/schemas/checkpoint.schema.json",
+  "title": "Claude Design Sync checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_id",
+    "requested_outcome",
+    "lifecycle_state",
+    "design_artifacts_changed",
+    "actual_product_changed",
+    "visible_in_target_environment",
+    "blockers",
+    "next_action",
+    "next_actor",
+    "last_event_id",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0-alpha.4"},
+    "work_id": {"type": "string", "minLength": 1},
+    "requested_outcome": {
+      "enum": ["design_only", "implementation_reference", "implemented", "delivered"]
+    },
+    "lifecycle_state": {
+      "enum": [
+        null,
+        "design_authored",
+        "candidate_verified",
+        "implementation_reference_accepted",
+        "implementation_in_progress",
+        "implementation_verified",
+        "delivered",
+        "closed"
+      ]
+    },
+    "design_artifacts_changed": {"type": "boolean"},
+    "actual_product_changed": {"type": "boolean"},
+    "visible_in_target_environment": {
+      "enum": ["yes", "no", "unverified", "not_applicable"]
+    },
+    "blocking_gate": {"type": ["string", "null"]},
+    "blockers": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_action": {"type": "string", "minLength": 1},
+    "next_actor": {"type": "string", "minLength": 1},
+    "last_event_id": {"type": "string", "minLength": 1},
+    "active_artifacts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "audit_reference": {"type": ["string", "null"]},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

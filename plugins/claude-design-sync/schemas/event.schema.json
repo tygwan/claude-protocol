@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/tygwan/claude-protocol/schemas/event.schema.json",
+  "title": "Claude Design Sync event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "work_id",
+    "occurred_at",
+    "actor",
+    "event_type",
+    "summary",
+    "references"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0-alpha.4"},
+    "event_id": {"type": "string", "minLength": 1},
+    "work_id": {"type": "string", "minLength": 1},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "adapter"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "adapter": {"type": "string", "minLength": 1}
+      }
+    },
+    "event_type": {
+      "enum": [
+        "request_created",
+        "artifact_authored",
+        "handoff_sent",
+        "handoff_received",
+        "verification_passed",
+        "verification_failed",
+        "gate_approved",
+        "gate_held",
+        "state_transition",
+        "delivery_completed",
+        "delivery_failed",
+        "recovery",
+        "correction",
+        "closed"
+      ]
+    },
+    "lifecycle_from": {"type": ["string", "null"]},
+    "lifecycle_to": {"type": ["string", "null"]},
+    "semantic_gate": {"type": ["string", "null"]},
+    "decision": {"type": ["string", "null"]},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 500},
+    "references": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "corrects_event_id": {"type": ["string", "null"]}
+  }
+}

@@ -12,7 +12,9 @@ Project instructions, product policy, and named decision owners remain authorita
 
 ## Load only what is needed
 
-Always read `references/evidence-and-decisions.md`.
+Always read `references/evidence-and-decisions.md`, `references/review-kernel.md`, and `references/response-modes.md`.
+
+Read `references/design-intelligence-providers.md` when a project configures an advisory provider or an activation trigger is present.
 
 Then route by scope:
 
@@ -49,18 +51,11 @@ Before judging, state:
 
 If the contract is missing, inspect safely or ask for the smallest missing fact. Do not fill policy gaps with design intuition.
 
-## Finding discipline
+## Adaptive finding discipline
 
-Every finding must include:
+Begin with an open read before applying categories. Select only the review lenses that can change the decision, challenge the leading interpretation, and then synthesize. Follow `references/review-kernel.md`.
 
-- area,
-- severity,
-- claim type,
-- direct evidence,
-- user impact,
-- recommendation,
-- confidence,
-- owner.
+Reserve a full structured finding card for blockers, major findings, gate decisions, and disputed claims. Moderate and minor observations may use concise prose when evidence, impact, and action remain clear. There is no finding quota.
 
 Use these severities:
 
@@ -69,15 +64,9 @@ Use these severities:
 - `moderate`: avoidable cognitive load, weak hierarchy, inconsistent interaction, or localized accessibility risk.
 - `minor`: polish with low task impact.
 
-Use these claim types:
+Classify insights as `blocking_finding`, `quality_improvement`, `design_opportunity`, `hypothesis`, or `adjacent_observation`. Keep facts, inferences, recommendations, decisions, and unverified claims visibly distinct. Never present an inference as a measured fact.
 
-- `fact`
-- `inference`
-- `recommendation`
-- `decision_required`
-- `unverified`
-
-Never present an inference as a measured fact.
+Unexpected insights are welcome, but they do not expand scope. Route useful adjacent observations to a follow-up owner without mutating the current artifact.
 
 ## Decision behavior
 
@@ -87,15 +76,10 @@ A recommendation is not a human gate approval. When a decision changes policy, m
 
 ## Output
 
-Return:
+Choose checkpoint, critique, audit, or a deliberate combination from `references/response-modes.md`.
 
-1. outcome and current confidence,
-2. evidence coverage and gaps,
-3. findings ordered by severity,
-4. approved aspects,
-5. unresolved decisions and owners,
-6. viewport/state coverage,
-7. recommendation with regret mode,
-8. one copy-ready next instruction labeled with its destination actor.
+In critique mode, lead with the strongest decision-relevant insight, then provide enough evidence, alternatives, tradeoffs, unresolved ownership, and regret analysis to support action. Headings and narrative shape are adaptive; interoperability fields remain structured only where a gate or handoff consumes them.
+
+End with one copy-ready next instruction labeled with its destination actor when another actor must act.
 
 When there are no actionable findings, say so and name what was actually verified. Do not invent issues to make the review look thorough.
