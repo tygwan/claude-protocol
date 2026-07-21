@@ -12,6 +12,12 @@
 - [x] Outcome-layer lifecycle and semantic gates
 - [x] Adapter-oriented project profile
 - [x] Compact checkpoint and audit-output separation
+- [x] Typed producer envelope and independent receiver receipt
+- [x] Minimal append-only event and checkpoint schemas
+- [x] Durable resume algorithm and documentation budget
+- [x] Adaptive review kernel and response planes
+- [x] Optional design-intelligence provider boundary
+- [x] Safe marketplace/plugin update path
 - [ ] Complete the first pilot through DVER
 - [ ] Validate with `claude plugin validate .`
 - [ ] Local installation smoke test
@@ -19,11 +25,13 @@
 - [ ] Add guided first-run setup and durable resume index
 
 ## v0.2 alpha — deterministic verification
+- [ ] Validate typed handoff, receipt, event, and checkpoint fixtures
+- [ ] Smoke-test update, reload, and same-request resume
 
 - [ ] Add a portable verifier CLI
 - [ ] Validate zip safety, path sets, bytes, and SHA-256
 - [ ] Generate candidate digests and machine-readable reports
-- [ ] Add protocol state, requested-outcome, lifecycle, and lineage validation
+- [ ] Add deterministic protocol state, requested-outcome, lifecycle, lineage, and JSON Schema validation
 - [ ] Add fixtures for truncation, stale metadata, partial snapshots, and superseded responses
 
 ## v0.3 alpha — adapter separation
@@ -31,6 +39,8 @@
 - [ ] Stabilize the repository-orchestrator adapter interface
 - [ ] Define Claude Design capability discovery
 - [ ] Add optional Codex repository adapter
+- [ ] Test optional UI UX Pro Max activation precision and conflict handling
+- [ ] Define a generic design-intelligence provider adapter contract
 - [ ] Keep the protocol core vendor-neutral where evidence permits
 
 ## beta

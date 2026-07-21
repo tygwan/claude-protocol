@@ -1,5 +1,31 @@
 # Changelog
 
+
+## 0.1.0-alpha.4 - 2026-07-21
+
+### Added
+
+- Typed producer handoff envelope and independent receiver receipt contracts
+- JSON Schemas for handoffs, receipts, append-only events, and resumable checkpoints
+- Durable resume algorithm and documentation budget
+- Adaptive review kernel with dynamic lenses, counterexamples, and insight types
+- Separate checkpoint, critique, and audit response modes
+- Optional authority-bounded design-intelligence provider interface
+- Conditional UI UX Pro Max adapter example
+- Safe plugin update and post-reload resume action
+
+### Changed
+
+- Plugin manifest is the only version source of truth; marketplace metadata no longer duplicates the version
+- High-severity and gate findings remain structured while routine critique may use natural prose
+- Audit expands for any evidence or authorization ambiguity
+- Cross-actor reception now requires a receiver-side record rather than producer self-attestation
+
+### Compatibility
+
+- Existing DREQ, DRES, DVER, lifecycle, and semantic gate concepts remain valid
+- New machine artifacts use schema version `1.0.0-alpha.4`
+- Projects may adopt typed handoffs incrementally at a durable checkpoint
 ## 0.1.0-alpha.3 — 2026-07-21
 
 ### Added

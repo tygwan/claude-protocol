@@ -1,7 +1,7 @@
 ---
 name: design-sync
 description: Orchestrate a continuous human-gated lifecycle from a natural-language design request through authored design, verified implementation, delivery, and closure. Use when a task needs project setup, design handoff, DREQ/DRES/DVER artifacts, design review, implementation-reference acceptance, product implementation, delivery, or resumable status.
-argument-hint: "[status|bootstrap|request|continue|verify|promote|implement|deliver|close|audit]"
+argument-hint: "[status|bootstrap|request|continue|verify|promote|implement|deliver|close|audit|update]"
 ---
 
 # Claude Design Sync
@@ -13,7 +13,8 @@ Before acting, read:
 1. the nearest project instruction file,
 2. the project design-sync profile if one exists,
 3. `references/protocol.md`,
-4. `references/templates.md`.
+4. `references/handoff-and-events.md`,
+5. `references/templates.md`.
 
 Use `$ARGUMENTS` to select the requested action. If it is missing, report current state and the next safe action.
 
@@ -56,7 +57,7 @@ Stop and report when any of these is true:
 - design project identity is ambiguous or retired,
 - source baseline cannot be tied to an immutable revision,
 - ownership of authoring source or implementation reference is ambiguous,
-- request or response lineage is stale, missing, or overwritten,
+- request, response, envelope, or receipt lineage is stale, missing, or overwritten,
 - the candidate is partial when the project requires whole-snapshot promotion,
 - path set, bytes, or SHA-256 differs from the authoritative manifest,
 - transport truncated content or cannot independently reproduce raw bytes,
@@ -65,7 +66,20 @@ Stop and report when any of these is true:
 
 Do not infer approval from silence, file transfer, a model recommendation, or prior approval of a different sequence.
 
-## Checkpoint contract
+## Durable continuity
+
+Conversation memory is a cache, never workflow state. Persist the smallest sufficient control record:
+
+- one current checkpoint per active request,
+- append-only protocol events,
+- immutable DREQ, DRES, DVER, handoff envelope, and receiver receipt artifacts,
+- references to detailed manifests and evidence instead of duplicated transcripts.
+
+On every new session or `continue`, reconstruct state from durable records, validate the newest non-superseded lineage, and emit a receiver receipt before acting on an inbound artifact. If reconstructed state conflicts with chat context, durable validated state wins and the conflict enters audit output.
+
+The producer records what it sent. The receiver independently records what it actually received and verified. A producer's declaration never substitutes for a receiver receipt. See `references/handoff-and-events.md`.
+
+## Checkpoint contract and output planes
 
 Every checkpoint must state:
 
@@ -76,7 +90,13 @@ Every checkpoint must state:
 - current blockers,
 - next safe action and its actor.
 
-Normal mode shows only that impact summary, the decision needed, and the next action. Keep hashes, manifests, lineage, and detailed verifier evidence internal unless verification fails, an identifier changes, recovery is required, or the user requests `audit`.
+Keep three planes distinct:
+
+- **control plane**: lifecycle, gate, user impact, blocker, next actor;
+- **critique plane**: adaptive design reasoning, alternatives, risks, and opportunities;
+- **audit plane**: identity, hashes, manifests, lineage, receipts, and recovery.
+
+Normal mode shows the control plane plus only the critique needed for the current decision. Keep audit details referenced, not repeated, unless verification fails, identity or authorization is ambiguous, an approval target changes, recovery is required, or the user requests `audit`.
 
 ## Action behavior
 
@@ -92,9 +112,13 @@ Discover existing project conventions and adapter capabilities first. Propose, b
 
 Investigate what can be learned safely, ask only for decisions that cannot be discovered, and draft one append-only DREQ. Include the requested terminal outcome, immutable source baseline when applicable, target surfaces, design sources, current implementation reference, scope, nonvisual constraints, explicit exclusions, unresolved flags, requested outputs, approval owner, and viewport classification. Stop at request_scope_approval before upload or design mutation.
 
+### continue
+
+Read only until durable state is reconstructed. Locate the active checkpoint, latest valid event, newest non-superseded artifacts, unresolved gates, and any inbound envelope without a receipt. Validate protocol and schema compatibility, write a receipt only through the configured append-only adapter, then propose or execute the next already-authorized safe action. Never replay a mutation merely because its prior conversational result is absent.
+
 ### verify
 
-Read the newest non-superseded DRES, but preserve prior responses. After authoring, record design_authored. Materialize the candidate in an isolated location and verify archive safety, exact path set, raw byte counts, SHA-256, lineage, expected diff, structural checks, companion coherence, and unexpected drift. Record candidate_verified only after all required checks pass. Visual inspection is a separate human step.
+Read the newest non-superseded DRES and its inbound envelope, but preserve prior records. After authoring, record design_authored. Materialize the candidate in an isolated location and independently verify archive safety, exact path set, raw byte counts, SHA-256, lineage, truncation, structural checks, companion coherence, and unexpected drift. Then write an accepted, rejected, or partial receiver receipt. Record candidate_verified only after an accepted receipt and all required checks pass. Visual inspection is a separate human step.
 
 ### promote
 
@@ -111,6 +135,14 @@ Use the configured delivery adapter only after the required implementation and d
 ### close
 
 Close only when the request's terminal outcome has been reached. For product-change requests, this requires implementation_verified and delivered. Create the final append-only verification record, record deviations and unresolved defects, then set closed. Never rewrite an earlier verification artifact. For design-only requests, explicitly mark implementation and delivery layers as not requested rather than implying that the product changed.
+
+### update
+
+Update only from a durable checkpoint with no unrecorded mutation in flight. Discover the configured marketplace and plugin identity; do not guess them from this repository's defaults. Report the installed and available versions, compatibility notes, and any schema migration before changing installation state.
+
+For the default marketplace installation, the operations are `/plugin marketplace update <marketplace>`, `/plugin update <plugin@marketplace>`, then `/reload-plugins`. After reload, run `continue` to validate profile compatibility and reconstruct the same request. Plugin versions are cache keys: every released content change requires a new plugin manifest version. Never require a marketplace catalog version when the plugin manifest is the version source of truth.
+
+If a requested update changes an artifact schema or cannot resume the current checkpoint, stop with migration and rollback instructions. An update never approves a gate or replays an action.
 
 ## Visual review
 

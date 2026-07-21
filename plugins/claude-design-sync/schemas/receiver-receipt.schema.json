@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/tygwan/claude-protocol/schemas/receiver-receipt.schema.json",
+  "title": "Claude Design Sync receiver receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "envelope_id",
+    "work_id",
+    "receiver",
+    "received_at",
+    "status",
+    "checks",
+    "measured_payload",
+    "resulting_state",
+    "next_actor"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0-alpha.4"},
+    "receipt_id": {"type": "string", "minLength": 1},
+    "envelope_id": {"type": "string", "minLength": 1},
+    "work_id": {"type": "string", "minLength": 1},
+    "receiver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "adapter"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "adapter": {"type": "string", "minLength": 1},
+        "instance": {"type": ["string", "null"]}
+      }
+    },
+    "received_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["accepted", "rejected", "partial"]},
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "lineage", "path_set", "raw_bytes", "digest", "truncation", "schema"],
+      "properties": {
+        "identity": {"type": "boolean"},
+        "lineage": {"type": "boolean"},
+        "path_set": {"type": "boolean"},
+        "raw_bytes": {"type": "boolean"},
+        "digest": {"type": "boolean"},
+        "truncation": {"type": "boolean"},
+        "schema": {"type": "boolean"}
+      }
+    },
+    "measured_payload": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "measured_candidate_digest": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reasons": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "recovery_action": {
+      "type": ["string", "null"]
+    },
+    "resulting_state": {
+      "enum": [
+        null,
+        "design_authored",
+        "candidate_verified",
+        "implementation_reference_accepted",
+        "implementation_in_progress",
+        "implementation_verified",
+        "delivered",
+        "closed"
+      ]
+    },
+    "next_actor": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "accepted"}}},
+      "then": {
+        "properties": {
+          "checks": {
+            "properties": {
+              "identity": {"const": true},
+              "lineage": {"const": true},
+              "path_set": {"const": true},
+              "raw_bytes": {"const": true},
+              "digest": {"const": true},
+              "truncation": {"const": true},
+              "schema": {"const": true}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

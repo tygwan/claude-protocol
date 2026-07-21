@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "claude-design-sync",
-  "version": "0.1.0-alpha.3",
-  "description": "Continuous human-gated design-to-delivery workflow with evidence-backed design review.",
+  "version": "0.1.0-alpha.4",
+  "description": "Resumable human-gated design-to-delivery orchestration with typed handoffs and adaptive design review.",
   "author": {
     "name": "tygwan"
   },

@@ -2,7 +2,10 @@ protocol_version: 1
 
 workflow:
   requested_outcome_default: delivered
-  state_index: .design-sync/state.yaml
+  active_request_index: .design-sync/active-requests.yaml
+  checkpoint_location: .design-sync/checkpoints
+  event_location: .design-sync/events
+  artifact_schema_version: 1.0.0-alpha.4
   normal_output: compact
   audit_output: on_request_or_failure
 
@@ -27,6 +30,8 @@ design_authoring:
     requests: _handoff/requests
     responses: _handoff/responses
     verification: _handoff/verification
+    envelopes: _handoff/envelopes
+    receipts: _handoff/receipts
 
 implementation_reference:
   adapter: repository_snapshot
@@ -76,6 +81,56 @@ transport:
   soft_authoring_limit_bytes: 200000
   hard_transport_limit_bytes: 262144
   zip_fallback: true
+
+state_storage:
+  adapter: filesystem
+  append_only_events: true
+  retain_artifacts: true
+  retention_days: null
+  compaction:
+    enabled: false
+    requires_verified_snapshot: true
+  privacy:
+    persist_chat_transcripts: false
+    persist_model_reasoning: false
+
+updates:
+  marketplace: tygwan-protocols
+  plugin: claude-design-sync@tygwan-protocols
+  require_durable_checkpoint: true
+  reload_command: /reload-plugins
+  resume_action: continue
+
+integrations:
+  ui_ux_pro_max:
+    adapter: claude_plugin_skill
+    plugin: ui-ux-pro-max@ui-ux-pro-max-skill
+    mode: auto_if_available
+    role: advisory
+    evidence_grade: E2
+    version_policy: pin_per_request
+    permissions:
+      read_only: true
+      modify_project: false
+      persist_design_system: false
+      implement_code: false
+      decide_policy: false
+    activation:
+      stages: [request_discovery, design_authoring, design_review]
+      when_any:
+        - new_visual_pattern
+        - missing_project_canon
+        - design_alternatives_requested
+        - typography_or_color_decision
+        - interaction_quality_question
+        - responsive_or_accessibility_risk
+        - explicit_user_request
+      skip_when:
+        - exact_canon_implementation
+        - mechanical_css_fix
+        - backend_or_api_only
+        - established_token_application
+        - regulated_policy_decision
 
 gates:
   request_scope_approval:

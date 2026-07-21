@@ -8,8 +8,7 @@
     {
       "name": "claude-design-sync",
       "source": "./plugins/claude-design-sync",
-      "description": "Manage design requests through authored design, verified implementation, delivery, and closure.",
-      "version": "0.1.0-alpha.3",
+      "description": "Manage resumable design requests through typed handoffs, adaptive critique, verified implementation, delivery, and closure.",
       "author": {
         "name": "tygwan"
       },

@@ -35,6 +35,10 @@ Status: in progress. Completed through Design response, verified zip recovery, c
 | Detailed design-artifact checks obscured whether the real product or target environment had changed | Users could mistake accepted design for delivered product and had to restart later phases manually | Separate outcome-layer states, report user impact at every checkpoint, and retain workflow ownership through the requested terminal outcome |
 | Numbered gates and repository-specific promotion language leaked into the reusable core | Other tools and delivery models would require protocol forks | Use semantic gates and move source, reference, implementation, delivery, and verification mechanics into project adapters |
 
+| Producer reports and user-relayed summaries blurred what the receiver had actually verified | A self-attested transfer could be mistaken for reception | Split handoff into an immutable producer envelope and independent receiver receipt |
+| Long fixed review outputs preserved consistency but constrained useful unexpected analysis | High-quality model judgment could collapse into repetitive form filling | Keep structured gate fields while using an open-read, dynamic-lens review kernel for critique |
+| Chat continuity required users to remember the next phase | Sessions could stop after design while the requested product outcome remained unfinished | Persist minimal events and checkpoints; reconstruct with `continue` and propose the next actor |
+| A broad external UI/UX skill could improve ideation but also conflict with canon or activate too often | Generic guidance could override project truth or consume context on routine work | Treat external skills as optional, read-only advisory providers with explicit triggers and authority limits |
 ### Authorization recovery checkpoint
 
 - The user explicitly voided both incorrectly transcribed zip digests and ratified the exact verified candidate digest, DRES digest, 36-file snapshot, and immutable PR head.

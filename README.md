@@ -2,7 +2,7 @@
 
 A Claude Code plugin for managing one continuous, human-gated request from design authoring through verified product delivery.
 
-> Status: `v0.1.0-alpha.3`. This is a working pilot baseline, not a production-stable harness.
+> Status: `v0.1.0-alpha.4`. This is a working pilot baseline, not a production-stable harness.
 
 ## What it provides
 
@@ -11,9 +11,12 @@ A Claude Code plugin for managing one continuous, human-gated request from desig
 - Continuity from a natural-language design request to implementation, delivery, and closure
 - Actor and ownership boundaries for the human, repository orchestrator, design author, delivery adapter, and domain decider
 - Append-only DREQ, DRES, and DVER artifacts
+- Typed producer envelopes and independently verified receiver receipts
+- Minimal append-only events and resumable checkpoints instead of chat-memory state
 - Verified implementation-reference promotion with path, byte, and SHA-256 evidence
 - Capability-based transport, including manifest-bearing zip relay
-- Evidence-backed visual, UI, UX, accessibility, and responsive review
+- Adaptive evidence-backed review that preserves unexpected design insight
+- Optional, authority-bounded design-intelligence providers
 - Compact normal checkpoints with audit detail on failure or request
 - Project-specific adapters without hard-coding one repository, framework, design tool, branch model, or deployment provider
 
@@ -36,11 +39,23 @@ Current alpha entry points:
 /claude-design-sync:design-sync request
 /claude-design-sync:design-sync status
 /claude-design-sync:design-sync continue
+/claude-design-sync:design-sync update
 /claude-design-sync:design-sync audit
 /claude-design-sync:design-review all
 ```
 
 The planned user-facing `/design` front door will wrap these internal skills after installation and resume testing is complete.
+
+To update an installed copy from a durable checkpoint:
+
+```text
+/plugin marketplace update tygwan-protocols
+/plugin update claude-design-sync@tygwan-protocols
+/reload-plugins
+/claude-design-sync:design-sync continue
+```
+
+The plugin manifest is the version source of truth and the marketplace catalog intentionally does not duplicate it.
 
 For local development:
 
@@ -88,7 +103,7 @@ Blocked by: design_acceptance
 Next: product owner accepts or holds the verified reference
 ```
 
-Hashes, manifests, lineage, and recovery details stay in audit state and expand automatically only on verification failure, identifier mismatch, approval-target change, recovery, or explicit `audit`.
+Hashes, manifests, receipts, lineage, and recovery details stay in audit state and expand automatically whenever evidence or authorization is ambiguous, or on explicit `audit`.
 
 At every pause the orchestrator names the next safe action and actor. The user does not have to remember and separately restart the next lifecycle stage.
 
@@ -106,11 +121,43 @@ A project profile supplies:
 
 The reusable core contains no required filesystem path, framework, version-control host, pull-request model, design tool, or deployment provider.
 
+## Review intelligence
+
+Review uses an adaptive kernel:
+
+1. open read before a checklist,
+2. establish task, truth, and authority,
+3. select only decision-relevant lenses,
+4. challenge the leading interpretation,
+5. synthesize evidence, alternatives, tradeoffs, and regret.
+
+Structured cards remain mandatory for blockers, major findings, gate decisions, and disputed claims. Other feedback may use natural prose. There is no finding quota, and adjacent observations never silently expand scope.
+
+External design-intelligence plugins are optional advisory providers. `nextlevelbuilder/ui-ux-pro-max-skill` has a profile example, but is not vendored or installed as a hard dependency. It activates only for configured high-information triggers and remains read-only, below project canon, and unable to approve gates or implement code.
+
+Optional installation:
+
+```text
+/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+/reload-plugins
+```
+
+
+## Control, critique, and audit
+
+- **Control plane**: lifecycle, gate, user impact, next actor.
+- **Critique plane**: adaptive design analysis and opportunities.
+- **Audit plane**: identity, manifests, receipts, lineage, authorization.
+
+The separation keeps the normal path short without reducing evidence or Claude's analytical range.
+
 ## Plugin layout
 
 - `.claude-plugin/marketplace.json`: marketplace catalog
 - `plugins/claude-design-sync/skills/design-sync/`: lifecycle and gate orchestration
 - `plugins/claude-design-sync/skills/design-review/`: modular review framework
+- `plugins/claude-design-sync/schemas/`: handoff, receipt, event, and checkpoint contracts
 - `examples/project-profile.example.yaml`: adapter-oriented project profile
 - `docs/PILOT-LOG.md`: observed failures and protocol changes
 - `docs/ROADMAP.md`: path from alpha to v1
@@ -126,9 +173,10 @@ The reusable core contains no required filesystem path, framework, version-contr
 ## Current limitations
 
 - The user-facing `/design` front door and guided first-run setup are not implemented yet.
+- Typed schemas are present, but a bundled deterministic schema/verifier CLI is not yet implemented.
 - Claude Design project identity may require name plus file fingerprint when no project-ID API exists.
 - Exact raw download-to-disk is adapter-dependent.
-- Deterministic verifier and approval-token generation are not implemented.
+- Deterministic payload verification and approval-token generation are not implemented.
 - Local plugin validation, installation, restart, and resume smoke tests remain pending.
 - The first real project pilot is not yet closed through implementation, delivery, and DVER.
 
