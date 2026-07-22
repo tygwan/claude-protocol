@@ -7,6 +7,7 @@ Each RFC records: status, target, base branch, related roadmap items, and the de
 | RFC | Title | Status |
 |---|---|---|
 | [001](001-frontend-quality-intelligence.md) | Frontend Quality Intelligence | Draft (request for comments) |
+| [002](002-extensible-report-contract.md) | Extensible Report Contract | Draft (request for comments) |
 
 ## Lifecycle
 
